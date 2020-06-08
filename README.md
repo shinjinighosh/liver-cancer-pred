@@ -2,7 +2,7 @@
 
 Playground for trying to predict liver cancer
 
-### How to run NN_playground.py
+### How to run the DNN model
 
     git clone git@github.com:shinjinighosh/liver-cancer-pred.git
     cd liver-cancer-pred
