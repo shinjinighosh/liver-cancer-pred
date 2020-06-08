@@ -15,13 +15,20 @@ tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 
 data = pd.read_csv('datasets_2607_4342_indian_liver_patient_labelled.csv')
 
-# creating input features and labels
-X = data[['Age', 'Gender', 'Total_Bilirubin', 'Direct_Bilirubin', 'Alkaline_Phosphotase',
-          'Alamine_Aminotransferase', 'Aspartate_Aminotransferase', 'Total_Protiens', 'Albumin', 'Albumin_and_Globulin_Ratio']]
-Y = data[['Dataset']]  # labels
-
 # preprocessing
+headers = list(data.columns)
+headers.remove('Dataset')
+for col in data.columns:
+    data[col] = data[col].fillna(0)
+data = pd.concat([data, pd.get_dummies(data['Gender'], prefix='Gender')], axis=1)
+headers.remove('Gender')
 
+data['Dataset'] = data['Dataset'].replace([1], 0)
+data['Dataset'] = data['Dataset'].replace([2], 1)
+
+# creating input features and labels
+X = data[headers]
+Y = data[['Dataset']]
 
 # building model
 model = Sequential()
