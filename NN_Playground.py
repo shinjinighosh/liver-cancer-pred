@@ -9,6 +9,7 @@ with warnings.catch_warnings():
     import tensorflow as tf
     from keras.models import Sequential
     from keras.layers import Dense
+    from keras.utils import to_categorical
     from tensorflow.keras.preprocessing.text import Tokenizer
 
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
@@ -28,14 +29,14 @@ data['Dataset'] = data['Dataset'].replace([2], 1)
 
 # creating input features and labels
 X = data[headers]
-Y = data[['Dataset']]
+Y = to_categorical(data[['Dataset']])
 
 # building model
 model = Sequential()
 input_dims = X.shape  # should be (583, 10)
 model.add(Dense(10, activation='relu', input_dim=input_dims[1]))
 model.add(Dense(8, activation='relu'))
-model.add(Dense(1, activation='sigmoid'))
+model.add(Dense(2, activation='sigmoid'))
 
 # compiling model
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
