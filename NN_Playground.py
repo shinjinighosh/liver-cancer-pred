@@ -8,6 +8,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import plot_confusion_matrix
 import seaborn as sns
+from math import sqrt
 
 
 with warnings.catch_warnings():
@@ -95,6 +96,7 @@ prediction = model.predict_classes(X)
 conf_matrix = confusion_matrix(Y_numeric, prediction)  # np.argmax(prediction, axis=0)
 print('Confusion Matrix')
 print(conf_matrix)
+(tn, fp), (fn, tp) = conf_matrix
 
 # plot confusion matrix
 class_names = [0, 1]
@@ -110,3 +112,22 @@ plt.xlabel('Predicted label')
 plt.tight_layout()
 plt.savefig('Confusion_matrix.png')
 plt.show()
+
+# calculating more metrics
+error_rate = (fp + fn) / (tp + tn + fp + fn)
+accuracy = 1 - error_rate
+sensitivity = tp / (tp + fn)
+specificity = tn / (tn + fp)
+precision = tp / (tp + fp)
+false_positive_rate = fp / (tn + fp)
+mcc = ((tp * tn) - (fp * fn)) / (sqrt((tp + fp) * (tp + fn) * (tn + fp) * (tn + fn)))
+beta = 1
+f_score = ((1 + beta * beta) * (precision * sensitivity)) / (beta * beta * precision + sensitivity)
+metrics = {'Error rate': error_rate, "Accuracy": accuracy, "Loss": loss,
+           "Sensitivity": sensitivity, "Specificity": specificity, "Precision": precision, "FPR": false_positive_rate, "MCC": mcc, "F score": f_score}
+
+print('=========================')
+print("        Metrics")
+print('=========================')
+# print(pd.DataFrame(metrics, index=[0]).T)
+print(pd.Series(metrics).T)
