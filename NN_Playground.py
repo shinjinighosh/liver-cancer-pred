@@ -64,8 +64,8 @@ print('Accuracy on training data: %.2f' % (accuracy * 100))
 # inspecting model
 print(model.summary())
 
-# print model history keys
-print(history.history.keys())
+# print model history keys for debugging
+# print(history.history.keys())
 
 # create accuracy plots
 plt.figure()
@@ -93,7 +93,7 @@ plt.savefig('Loss.png')
 # obtain confusion matrix
 prediction = model.predict_classes(X)
 conf_matrix = confusion_matrix(Y_numeric, prediction)  # np.argmax(prediction, axis=0)
-print('Confusion Matrix : \n')
+print('Confusion Matrix')
 print(conf_matrix)
 
 # plot confusion matrix
@@ -103,10 +103,10 @@ tick_marks = np.arange(len(class_names))
 plt.xticks(tick_marks, class_names)
 plt.yticks(tick_marks, class_names)
 sns.heatmap(pd.DataFrame(conf_matrix), annot=True, cmap="viridis", fmt='g')
-ax.xaxis.set_label_position("top")
-plt.tight_layout()
-plt.title('Confusion matrix', y=1.1)
+ax.xaxis.set_label_position("bottom")
+plt.title('Confusion matrix')
 plt.ylabel('Actual label')
 plt.xlabel('Predicted label')
+plt.tight_layout()
 plt.savefig('Confusion_matrix.png')
 plt.show()
