@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import LabelEncoder
+from sklearn.metrics import plot_confusion_matrix
 
 
 with warnings.catch_warnings():
@@ -73,7 +74,7 @@ plt.ylabel('accuracy')
 plt.xlabel('epoch')
 plt.legend(['train', 'test'], loc='upper left')
 plt.savefig('Accuracy.png')
-plt.show()
+# plt.show()
 
 # create loss plots
 plt.plot(history.history['loss'])
@@ -83,15 +84,16 @@ plt.ylabel('loss')
 plt.xlabel('epoch')
 plt.legend(['train', 'test'], loc='upper left')
 plt.savefig('Loss.png')
-plt.show()
+# plt.show()
 
 
 # obtain confusion matrix
 prediction = model.predict_classes(X)
-print(type(prediction), prediction.shape)
-print('prediction is', prediction)
-print(type(Y_numeric), Y_numeric.shape)
-print('Y_numeric is', Y_numeric)
 cm1 = confusion_matrix(Y_numeric, prediction)  # np.argmax(prediction, axis=0)
 print('Confusion Matrix : \n')
 print(cm1)
+
+# plot confusion matrix
+plot_confusion_matrix(model, X, Y)
+plt.savefig('Confusion_matrix.png')
+plt.show()
