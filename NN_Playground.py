@@ -93,7 +93,7 @@ plt.savefig('Loss.png')
 
 # obtain confusion matrix
 prediction = model.predict_classes(X)
-conf_matrix = confusion_matrix(Y_numeric, prediction)  # np.argmax(prediction, axis=0)
+conf_matrix = confusion_matrix(Y_numeric, prediction)
 print('Confusion Matrix')
 print(conf_matrix)
 (tn, fp), (fn, tp) = conf_matrix
