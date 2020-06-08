@@ -5,6 +5,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
+from sklearn.preprocessing import LabelEncoder
 
 
 with warnings.catch_warnings():
@@ -30,9 +31,14 @@ headers.remove('Gender')
 data['Dataset'] = data['Dataset'].replace([1], 0)
 data['Dataset'] = data['Dataset'].replace([2], 1)
 
+
 # creating input features and labels
 X = data[headers]
-Y = to_categorical(data[['Dataset']])
+Y = data[['Dataset']]
+encoder = LabelEncoder()
+encoder.fit(Y)
+encoded_Y = encoder.transform(Y)
+Y = to_categorical(encoded_Y)
 
 # building model
 model = Sequential()
@@ -83,7 +89,7 @@ plt.show()
 prediction = model.predict_classes(X)
 print(type(prediction), prediction.shape)
 print(prediction)
-cm1 = confusion_matrix(Y, np.argmax(prediction, axis=0))
+cm1 = confusion_matrix(Y, prediction)  # np.argmax(prediction, axis=0)
 print('Confusion Matrix : \n')
 print(cm1)
 
