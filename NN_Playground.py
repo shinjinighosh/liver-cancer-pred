@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 from sklearn.metrics import plot_confusion_matrix
+import seaborn as sns
 
 
 with warnings.catch_warnings():
@@ -67,6 +68,7 @@ print(model.summary())
 print(history.history.keys())
 
 # create accuracy plots
+plt.figure()
 plt.plot(history.history['accuracy'])
 plt.plot(history.history['val_accuracy'])
 plt.title('Model accuracy')
@@ -77,7 +79,8 @@ plt.savefig('Accuracy.png')
 # plt.show()
 
 # create loss plots
-plt.plot(history.history['loss'])
+plt.figure()
+ax2 = plt.plot(history.history['loss'])
 plt.plot(history.history['val_loss'])
 plt.title('Model loss')
 plt.ylabel('loss')
@@ -89,11 +92,21 @@ plt.savefig('Loss.png')
 
 # obtain confusion matrix
 prediction = model.predict_classes(X)
-cm1 = confusion_matrix(Y_numeric, prediction)  # np.argmax(prediction, axis=0)
+conf_matrix = confusion_matrix(Y_numeric, prediction)  # np.argmax(prediction, axis=0)
 print('Confusion Matrix : \n')
-print(cm1)
+print(conf_matrix)
 
 # plot confusion matrix
-plot_confusion_matrix(model, X, Y)
+class_names = [0, 1]
+fig, ax = plt.subplots()
+tick_marks = np.arange(len(class_names))
+plt.xticks(tick_marks, class_names)
+plt.yticks(tick_marks, class_names)
+sns.heatmap(pd.DataFrame(conf_matrix), annot=True, cmap="viridis", fmt='g')
+ax.xaxis.set_label_position("top")
+plt.tight_layout()
+plt.title('Confusion matrix', y=1.1)
+plt.ylabel('Actual label')
+plt.xlabel('Predicted label')
 plt.savefig('Confusion_matrix.png')
 plt.show()
