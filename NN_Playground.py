@@ -42,3 +42,8 @@ model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy']
 
 # fitting model on data
 model.fit(X, Y, epochs=100, batch_size=10)
+
+# evaluating the model
+loss, accuracy = model.evaluate(X, Y)
+print('Loss on training data: %.2f' % (loss))
+print('Accuracy on training data: %.2f' % (accuracy * 100))
