@@ -34,11 +34,12 @@ data['Dataset'] = data['Dataset'].replace([2], 1)
 
 # creating input features and labels
 X = data[headers]
-Y = data[['Dataset']]
-encoder = LabelEncoder()
-encoder.fit(Y)
-encoded_Y = encoder.transform(Y)
-encoded_Y = to_categorical(encoded_Y)
+Y_numeric = data[['Dataset']]
+Y = to_categorical(data[['Dataset']])
+# encoder = LabelEncoder()
+# encoder.fit(Y)
+# encoded_Y = encoder.transform(Y)
+# encoded_Y = to_categorical(encoded_Y)
 
 # building model
 model = Sequential()
@@ -51,10 +52,10 @@ model.add(Dense(2, activation='sigmoid'))
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 # fitting model on data
-history = model.fit(X, encoded_Y, epochs=100, batch_size=10, validation_split=0.2)
+history = model.fit(X, Y, epochs=100, batch_size=10, validation_split=0.2)
 
 # evaluating the model
-loss, accuracy = model.evaluate(X, encoded_Y)
+loss, accuracy = model.evaluate(X, Y)
 print('Loss on training data: %.2f' % (loss))
 print('Accuracy on training data: %.2f' % (accuracy * 100))
 
@@ -89,12 +90,8 @@ plt.show()
 prediction = model.predict_classes(X)
 print(type(prediction), prediction.shape)
 print('prediction is', prediction)
-print('encoded_Y is', encoded_Y)
-cm1 = confusion_matrix(encoder.transform(Y), prediction)  # np.argmax(prediction, axis=0)
+print(type(Y_numeric), Y_numeric.shape)
+print('Y_numeric is', Y_numeric)
+cm1 = confusion_matrix(Y_numeric, prediction)  # np.argmax(prediction, axis=0)
 print('Confusion Matrix : \n')
 print(cm1)
-
-
-score, acc = model.evaluate(X, encoded_Y)
-print('Test score:', score)
-print('Test accuracy:', acc)
