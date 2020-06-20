@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # coding: utf-8
-import pandas as pd
-import numpy as np
 import matplotlib.pyplot as plt
-from sklearn import linear_model
-import statsmodels.api as sm
-from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+import numpy as np
+import pandas as pd
 import seaborn as sns
+import statsmodels.api as sm
+from sklearn import linear_model
+from sklearn.metrics import confusion_matrix
 
 data = pd.read_csv("datasets_2607_4342_indian_liver_patient_labelled.csv")
 df = pd.DataFrame(data)
